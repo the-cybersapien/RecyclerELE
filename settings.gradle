@@ -1,1 +1,1 @@
-include ':recyclereleLib'
+include ':recyclereleLib', ':recyclerELE sample'

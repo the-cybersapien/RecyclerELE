@@ -152,7 +152,7 @@ public class RecyclerELE extends Adapter{
             case VIEW_LOADING:
             case VIEW_EMPTY:
             case VIEW_ERROR:
-                return 0;
+                return 1;
             default:
                 throw new IllegalArgumentException("No View State found matching currentView: " + currentView);
         }
