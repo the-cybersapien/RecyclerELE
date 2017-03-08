@@ -11,7 +11,7 @@ import static android.support.v7.widget.RecyclerView.*;
  * This is a small wrapper class for the RecyclerView Adapter to make things easier on the RecyclerView
  */
 
-public class RecyclerELE extends Adapter{
+public class RecyclerELEAdapter extends Adapter{
 
     /* Wrapped Adapter */
     private final Adapter wrapped;
@@ -34,7 +34,7 @@ public class RecyclerELE extends Adapter{
 
     private int currentView = VIEW_NORMAL;
 
-    public RecyclerELE(RecyclerView.Adapter wrapped, View emptyView, View loadingView, View errorView) {
+    public RecyclerELEAdapter(RecyclerView.Adapter wrapped, View emptyView, View loadingView, View errorView) {
         super();
         this.wrapped = wrapped;
 
