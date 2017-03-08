@@ -1,5 +1,9 @@
 ## Recycler ELE
 -------------------------------------------
+
+[![Release](https://jitpack.io/v/the-cybersapien/RecyclerELE.svg)]
+(https://jitpack.io/#the-cybersapien/RecyclerELE)
+
 We often use the RecyclerView and the RecyclerView.Adapter for our material design apps. Going from the ListView to RecyclerView, I really missed the `setEmptyView()` method.
 
 So, I extended the original RecyclerView Adapter to help manage different states in the application.
@@ -29,7 +33,7 @@ allprojects {
 
 In your app module's `build.gradle` add dependency:
 ```
-    compile 'com.github.the-cybersapien:RecyclerELE:-SNAPSHOT'
+    compile 'com.github.the-cybersapien:RecyclerELE:(latest release)'
 ```
 
 I'll try and shift this to jCentral, that'll remove the need to add jitpack.io to maven. Until then, bear with me please.
