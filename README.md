@@ -10,9 +10,6 @@ The Adapter, apart from the standard list, supports three different views:
 
 This way, `RecyclerELE` helps us give different output to user depending on the current state of data, without having to mess a lot with the code.
 
-### Usage
-
-
 ### Installation
 
 ------------------------------------------
@@ -37,7 +34,55 @@ In your app module's `build.gradle` add dependency:
 
 I'll try and shift this to jCentral, that'll remove the need to add jitpack.io to maven. Until then, bear with me please.
 
+### Usage
+------------------------------------
+
+In your Activity, create a regular RecyclerView.Adapter for your List Item
+```
+    RecyclerAdapter listAdapter = new RecyclerAdapter(Object... args);
+```
+
+Get the reference to your RecyclerView 
+```
+    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+```
+
+Inflate your empty view, loading view and error view with the recyclerView as their parent programmatically. 
+```
+    View loadingView = getLayoutInflator().inflate(R.layout.view_loading, recyclerView, false);
+    View emptyView = getLayoutInflator().inflate(R.layout.view_empty, recyclerView, false);
+    View errorView = getLayoutInflator().inflate(R.layout.view_error, recyclerView, false);
+```
+
+Initialize the RecyclerELEAdapter with the RecyclerAdapter and the different Views
+```
+    RecyclerELEAdapter recyclerELEAdapter = new RecyclerELE(listAdapter, emptyView, loadingView, errorView);
+```
+
+Set the RecyclerELEAdapter to your recyclerView
+```
+    recyclerView.setAdapter(recyclerELEAdapter);
+```
+
+Change the current View type of the adapter with `setCurrentView()` function
+```
+    // Normal List View
+    recyclerELEAdapter.setCurrentView(RecyclerELEAdapter.VIEW_NORMAL);
+    
+    // Empty View
+    recyclerELEAdapter.setCurrentView(RecyclerELEAdapter.VIEW_EMPTY);
+    
+    // Loading View
+    recyclerELEAdapter.setCurrentView(RecyclerELEAdapter.VIEW_LOADING);
+    
+    // Error View
+    recyclerELEAdapter.setCurrentView(RecyclerELEAdapter.VIEW_ERROR);
+```
+
+For more details, see the Sample Application in `recyclerELE sample` module.
+
 ## License
+----------------------------------
 
 ```
 Copyright [2017] [Aditya Aggarwal]
