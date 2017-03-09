@@ -1,8 +1,7 @@
 ## Recycler ELE
 -------------------------------------------
 
-[![Release](https://jitpack.io/v/the-cybersapien/RecyclerELE.svg)]
-(https://jitpack.io/#the-cybersapien/RecyclerELE)
+[ ![Release](https://jitpack.io/v/the-cybersapien/RecyclerELE.svg) ](https://jitpack.io/#the-cybersapien/RecyclerELE) [ ![Download](https://api.bintray.com/packages/the-cybersapien/android-RecyclerELE/recycler-ele/images/download.svg) ](https://bintray.com/the-cybersapien/android-RecyclerELE/recycler-ele/_latestVersion)
 
 We often use the RecyclerView and the RecyclerView.Adapter for our material design apps. Going from the ListView to RecyclerView, I really missed the `setEmptyView()` method.
 
@@ -20,6 +19,27 @@ This way, `RecyclerELE` helps us give different output to user depending on the 
 
 The installation is pretty easy.
 
+#### JCenter
+
+##### For Gradle
+In your app module's `build.gradle` add dependency:
+```
+    compile 'com.github.the-cybersapien:recyclerELE:(latest release)'
+```
+
+##### For Maven:
+
+Add Snippet:
+```
+<dependency>
+  <groupId>com.github.the-cybersapien</groupId>
+  <artifactId>recyclerELE</artifactId>
+  <version>v1.0</version>
+  <type>pom</type>
+</dependency>
+```
+
+#### Jitpack Gradle
 In your project's `build.gradle` at the end of the repositories, add:
 
 ```
@@ -33,10 +53,9 @@ allprojects {
 
 In your app module's `build.gradle` add dependency:
 ```
-    compile 'com.github.the-cybersapien:RecyclerELE:(latest release)'
+    compile 'com.github.the-cybersapien:recyclerELE:(latest release)'
 ```
 
-I'll try and shift this to jCentral, that'll remove the need to add jitpack.io to maven. Until then, bear with me please.
 
 ### Usage
 ------------------------------------

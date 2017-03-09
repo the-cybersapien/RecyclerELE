@@ -34,3 +34,4 @@ captures/
 
 # Android Studio files
 .idea/
+bintray\.properties
