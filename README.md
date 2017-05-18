@@ -1,7 +1,7 @@
 ## Recycler ELE
 -------------------------------------------
 
-[ ![Release](https://jitpack.io/v/the-cybersapien/RecyclerELE.svg) ](https://jitpack.io/#the-cybersapien/RecyclerELE) [ ![Download](https://api.bintray.com/packages/the-cybersapien/android-RecyclerELE/recycler-ele/images/download.svg) ](https://bintray.com/the-cybersapien/android-RecyclerELE/recycler-ele/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/the-cybersapien/android-RecyclerELE/recycler-ele/images/download.svg) ](https://bintray.com/the-cybersapien/android-RecyclerELE/recycler-ele/_latestVersion)
 
 ![Logo image](pics/Recycler-ELE2.png)
 
@@ -42,23 +42,6 @@ Add Snippet:
   <version>v1.0</version>
   <type>pom</type>
 </dependency>
-```
-
-#### Jitpack Gradle
-In your project's `build.gradle` at the end of the repositories, add:
-
-```
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-In your app module's `build.gradle` add dependency:
-```
-    compile 'com.github.the-cybersapien:recyclerELE:(latest release)'
 ```
 
 
