@@ -1,8 +1,14 @@
 package xyz.cybersapien.recyclerele;
 
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import static android.support.v7.widget.RecyclerView.*;
 
@@ -27,17 +33,26 @@ public class RecyclerELEAdapter extends Adapter{
     public static final int VIEW_LOADING = 102;
     public static final int VIEW_ERROR = 103;
 
-    /* Values for Different View States */
+    /**
+     * Make sure that the Views are only one of the defined values
+     * Don't want the good devs having a mess with wrong code!
+     */
+    @IntDef({VIEW_NORMAL, VIEW_EMPTY, VIEW_LOADING, VIEW_ERROR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CurrentSetView {
+    }
+
+    /* Internally used values for Different View States */
     public static final int VIEW_TYPE_EMPTY = 201;
     public static final int VIEW_TYPE_LOADING = 202;
     public static final int VIEW_TYPE_ERROR = 203;
 
+    @CurrentSetView
     private int currentView = VIEW_NORMAL;
 
-    public RecyclerELEAdapter(RecyclerView.Adapter wrapped, View emptyView, View loadingView, View errorView) {
+    public RecyclerELEAdapter(@NonNull RecyclerView.Adapter wrapped, @Nullable View emptyView, @Nullable View loadingView, @Nullable View errorView) {
         super();
         this.wrapped = wrapped;
-
         this.emptyView = emptyView;
         this.loadingView = loadingView;
         this.errorView = errorView;
@@ -75,11 +90,12 @@ public class RecyclerELEAdapter extends Adapter{
         });
     }
 
+    @CurrentSetView
     public int getCurrentView(){
         return currentView;
     }
 
-    public void setCurrentView(int currentView){
+    public void setCurrentView(@CurrentSetView int currentView){
         this.currentView = currentView;
         wrapped.notifyDataSetChanged();
         notifyDataSetChanged();
