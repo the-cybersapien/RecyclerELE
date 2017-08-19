@@ -3,6 +3,7 @@ package xyz.cybersapien.recyclerele;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +11,21 @@ import android.view.ViewGroup;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static android.support.v7.widget.RecyclerView.*;
+import static android.support.v7.widget.RecyclerView.Adapter;
+import static android.support.v7.widget.RecyclerView.AdapterDataObserver;
+import static android.support.v7.widget.RecyclerView.ViewHolder;
 
 /**
  * Created by cybersapien on 3/7/2017.
  * This is a small wrapper class for the RecyclerView Adapter to make things easier on the RecyclerView
  */
 
-public class RecyclerELEAdapter extends Adapter{
+public class RecyclerELEAdapter extends Adapter {
 
     /* Wrapped Adapter */
-    private final Adapter wrapped;
+    private final Adapter<ViewHolder> wrapped;
+    private RecyclerView recyclerView;
+
 
     /* Views for different states*/
     private View loadingView;
@@ -50,7 +55,9 @@ public class RecyclerELEAdapter extends Adapter{
     @CurrentSetView
     private int currentView = VIEW_NORMAL;
 
-    public RecyclerELEAdapter(@NonNull RecyclerView.Adapter wrapped, @Nullable View emptyView, @Nullable View loadingView, @Nullable View errorView) {
+    private int spanCount = 1;
+
+    public RecyclerELEAdapter(@NonNull Adapter<ViewHolder> wrapped, @Nullable View emptyView, @Nullable View loadingView, @Nullable View errorView) {
         super();
         this.wrapped = wrapped;
         this.emptyView = emptyView;
@@ -91,30 +98,46 @@ public class RecyclerELEAdapter extends Adapter{
     }
 
     @CurrentSetView
-    public int getCurrentView(){
+    public int getCurrentView() {
         return currentView;
     }
 
-    public void setCurrentView(@CurrentSetView int currentView){
+    public void setCurrentView(@CurrentSetView int currentView) {
         this.currentView = currentView;
         wrapped.notifyDataSetChanged();
+
+        if (recyclerView != null) {
+            RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+            if (manager instanceof GridLayoutManager) {
+                switch (currentView) {
+                    case VIEW_NORMAL:
+                        ((GridLayoutManager) manager).setSpanCount(spanCount);
+                        break;
+                    default:
+                        ((GridLayoutManager) manager).setSpanCount(1);
+                }
+            }
+        }
+
         notifyDataSetChanged();
     }
 
-    public RecyclerView.Adapter getWrappedAdapter() {
+    public Adapter<ViewHolder> getWrappedAdapter() {
         return wrapped;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (currentView){
+        switch (currentView) {
             case VIEW_EMPTY:
-                return new ViewHolder(emptyView) {};
+                return new ViewHolder(emptyView) {
+                };
             case VIEW_LOADING:
-                return new ViewHolder(loadingView) {};
+                return new ViewHolder(loadingView) {
+                };
             case VIEW_ERROR:
-                return new ViewHolder(errorView) {};
+                return new ViewHolder(errorView) {
+                };
             case VIEW_NORMAL:
                 return wrapped.onCreateViewHolder(parent, viewType);
             default:
@@ -124,7 +147,7 @@ public class RecyclerELEAdapter extends Adapter{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        switch (currentView){
+        switch (currentView) {
             case VIEW_NORMAL:
                 wrapped.onBindViewHolder(holder, position);
                 break;
@@ -146,23 +169,26 @@ public class RecyclerELEAdapter extends Adapter{
      * Override this Method to do something when the Empty View is bound
      * This is empty by default
      */
-    public void onBindEmptyViewHolder(ViewHolder holder, int position){}
+    public void onBindEmptyViewHolder(ViewHolder holder, int position) {
+    }
 
     /**
      * Override this Method to perform actions when the Loading View is bound
      * This is empty by default
      */
-    public void onBindLoadingViewHolder(ViewHolder holder, int position){}
+    public void onBindLoadingViewHolder(ViewHolder holder, int position) {
+    }
 
     /**
      * Override this Method to perform actions when the Error View is bound
      * This is empty by default
      */
-    public void onBindErrorViewHolder(ViewHolder holder, int position){}
+    public void onBindErrorViewHolder(ViewHolder holder, int position) {
+    }
 
     @Override
     public int getItemCount() {
-        switch (currentView){
+        switch (currentView) {
             case VIEW_NORMAL:
                 return wrapped.getItemCount();
             case VIEW_LOADING:
@@ -176,7 +202,7 @@ public class RecyclerELEAdapter extends Adapter{
 
     @Override
     public int getItemViewType(int position) {
-        switch (currentView){
+        switch (currentView) {
             case VIEW_NORMAL:
                 return wrapped.getItemViewType(position);
             case VIEW_LOADING:
@@ -233,11 +259,17 @@ public class RecyclerELEAdapter extends Adapter{
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         wrapped.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if (manager instanceof GridLayoutManager) {
+            spanCount = ((GridLayoutManager) manager).getSpanCount();
+        }
+        this.recyclerView = recyclerView;
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         wrapped.onDetachedFromRecyclerView(recyclerView);
+        this.recyclerView = null;
     }
 
 }
