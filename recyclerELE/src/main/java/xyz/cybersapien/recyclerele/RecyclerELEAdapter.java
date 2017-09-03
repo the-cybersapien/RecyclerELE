@@ -20,10 +20,10 @@ import static android.support.v7.widget.RecyclerView.ViewHolder;
  * This is a small wrapper class for the RecyclerView Adapter to make things easier on the RecyclerView
  */
 
-public class RecyclerELEAdapter extends Adapter {
+public class RecyclerELEAdapter<T extends ViewHolder> extends Adapter<ViewHolder> {
 
     /* Wrapped Adapter */
-    private final Adapter<ViewHolder> wrapped;
+    private final Adapter wrapped;
     private RecyclerView recyclerView;
 
 
@@ -57,7 +57,7 @@ public class RecyclerELEAdapter extends Adapter {
 
     private int spanCount = 1;
 
-    public RecyclerELEAdapter(@NonNull Adapter<ViewHolder> wrapped, @Nullable View emptyView, @Nullable View loadingView, @Nullable View errorView) {
+    public RecyclerELEAdapter(@NonNull Adapter wrapped, @Nullable View emptyView, @Nullable View loadingView, @Nullable View errorView) {
         super();
         this.wrapped = wrapped;
         this.emptyView = emptyView;
@@ -122,7 +122,7 @@ public class RecyclerELEAdapter extends Adapter {
         notifyDataSetChanged();
     }
 
-    public Adapter<ViewHolder> getWrappedAdapter() {
+    public Adapter<T> getWrappedAdapter() {
         return wrapped;
     }
 
@@ -149,7 +149,7 @@ public class RecyclerELEAdapter extends Adapter {
     public void onBindViewHolder(ViewHolder holder, int position) {
         switch (currentView) {
             case VIEW_NORMAL:
-                wrapped.onBindViewHolder(holder, position);
+                wrapped.onBindViewHolder((T) holder, position);
                 break;
             case VIEW_EMPTY:
                 onBindEmptyViewHolder(holder, position);
@@ -228,22 +228,22 @@ public class RecyclerELEAdapter extends Adapter {
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        wrapped.onViewRecycled(holder);
+        wrapped.onViewRecycled((T) holder);
     }
 
     @Override
     public boolean onFailedToRecycleView(ViewHolder holder) {
-        return wrapped.onFailedToRecycleView(holder);
+        return wrapped.onFailedToRecycleView((T) holder);
     }
 
     @Override
     public void onViewAttachedToWindow(ViewHolder holder) {
-        wrapped.onViewAttachedToWindow(holder);
+        wrapped.onViewAttachedToWindow((T) holder);
     }
 
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
-        wrapped.onViewDetachedFromWindow(holder);
+        wrapped.onViewDetachedFromWindow((T) holder);
     }
 
     @Override

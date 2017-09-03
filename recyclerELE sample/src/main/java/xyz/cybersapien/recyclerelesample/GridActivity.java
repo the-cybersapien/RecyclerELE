@@ -35,7 +35,7 @@ public class GridActivity extends AppCompatActivity {
 
         SimpleListAdapter listAdapter = new SimpleListAdapter(stringsList);
 
-        recyclerELEAdapter = new RecyclerELEAdapter(listAdapter, emptyView, loadingView, errorView);
+        recyclerELEAdapter = new RecyclerELEAdapter<SimpleListAdapter.StringListViewHolder>(listAdapter, emptyView, loadingView, errorView);
         recyclerView.setAdapter(recyclerELEAdapter);
     }
 
